@@ -42,11 +42,12 @@ class TCPConnection {
 
         this.consumer[id] = new Kafka.KafkaConsumer(CONSUMER_CONFIG).getReadStream(TOPIC);
         this.consumer[id].on('data', (data)=>{
-            console.log(data);
+            console.log(id, ' Consumed');
             this.connection[id].write(data.value);
         });
     }
 };
+
 
 class Producer {
     constructor() {
@@ -72,7 +73,6 @@ class Producer {
     }
 }
 
-
 const connections = new TCPConnection();
 const producers  = new Producer();
 Net.createServer((sock)=>{
@@ -90,7 +90,7 @@ Net.createServer((sock)=>{
 }).listen(PORT);
 
 setInterval(()=>{
-    console.log(len, (len / 1024) + '/KB');
+    console.log(len, (len / 1024) + 'KB/s');
     len = 0;
 }, 1000);
 

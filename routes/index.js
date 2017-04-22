@@ -1,6 +1,8 @@
 const CONFIG       = require('process').argv[2];
 const Router       = require('koa-router');
 const send         = require('koa-send');
+const fs           = require('fs');
+const util         = require('util');
 
 let router         = new Router();
 
@@ -13,9 +15,20 @@ if (CONFIG === 'dev') {
 
 router.get('/', (ctx, next)=> {
     return ctx.render('../views/index.html', {
-    	staticPath: STATIC_PATH
+        staticPath: STATIC_PATH
     });
 });
 
+let start = 0;
+router.get('/*.mp4', (ctx, next)=> {
+    if (start === 0) start = (new Date()).getTime();
+        return send(ctx, '/public/movie.mp4');
+});
+
+router.get('/offset', (ctx, next)=>{
+    ctx.body = {
+        offset: (new Date()).getTime() - start
+    };
+});
 
 module.exports = router;
