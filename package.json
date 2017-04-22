@@ -23,6 +23,7 @@
     "babel-preset-env": "^1.2.2",
     "babel-register": "^6.24.0",
     "ejs": "^2.5.6",
+    "fluent-ffmpeg": "^2.1.0",
     "install": "^0.8.8",
     "koa": "^2.2.0",
     "koa-router": "^7.0.1",
