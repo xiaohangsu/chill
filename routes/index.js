@@ -3,6 +3,7 @@ const Router       = require('koa-router');
 const send         = require('koa-send');
 const fs           = require('fs');
 const util         = require('util');
+const rooms        = require('../data/room');
 
 let router         = new Router();
 
@@ -21,6 +22,9 @@ router.get('/', (ctx, next)=> {
 
 let START_TIME = 0;
 router.get('/*.mp4', (ctx, next)=> {
+    const ip = ctx.request.ip.replace('::ffff:', '');
+    console.log('GET | /*.mp4 ', ip);
+    rooms.startVideo(ip);
     if (START_TIME === 0) START_TIME = (new Date()).getTime();
     console.log(__dirname + '/../public' + ctx.req.url);
     let path = __dirname + '/../public' + ctx.req.url;
@@ -48,14 +52,38 @@ router.get('/*.mp4', (ctx, next)=> {
         ctx.res.writeHead(200, { 'Content-Length': total, 'Content-Type': 'video/mp4' });
         ctx.body = fs.createReadStream(path).pipe(ctx.res);
     }
-
-
 });
 
 router.get('/offset', (ctx, next)=>{
+    const ip = ctx.request.ip.replace('::ffff:', '');
+    console.log('GET | /offset ', ip);
     ctx.body = {
-        offset: (new Date()).getTime() - START_TIME
+        startTime: rooms.getStartTime(ip) | 0
     };
+});
+
+router.post('/createRoom', (ctx, next)=>{
+    const ip = ctx.request.ip.replace('::ffff:', '');
+    console.log('POST | /createRoom ', ip, JSON.parse(ctx.request.body.isPrivate));
+    ctx.body = rooms.createRoom(ip, JSON.parse(ctx.request.body.isPrivate));
+});
+
+router.post('/joinRoom', (ctx, next)=> {
+    const ip = ctx.request.ip.replace('::ffff:', '');
+    console.log('POST | /joinRoom ', ip);
+    const roomName = ctx.request.body.roomName;
+    ctx.body = rooms.joinRoom(ip, roomName);
+});
+
+router.get('/getRoomsInfo', (ctx, next)=> {
+    const ip = ctx.request.ip.replace('::ffff:', '');
+    ctx.body = rooms.getRoomsInfo(ip);
+});
+
+router.get('/leaveRoom',(ctx, next)=> {
+    const ip = ctx.request.ip.replace('::ffff:', '');
+    rooms.leaveRoom(ip);
+    ctx.body = '';
 });
 
 module.exports = router;

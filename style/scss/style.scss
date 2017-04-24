@@ -1,0 +1,29 @@
+* {
+    margin:0;
+    padding: 0;
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+video {
+    width: 100%;
+    height: 100%;
+}
+
+#volume-control {
+    width: 15%;
+    position: absolute;
+    bottom: 50%;
+    left: 90%;
+    display: none;
+    transform: rotate(270deg);
+}
+
+video:hover + #volume-control {
+    display: block;
+}

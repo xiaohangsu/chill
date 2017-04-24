@@ -24,8 +24,7 @@ http.createServer((req, res) => {
   if (!start) {
     start = new Date().getTime();
   } else {
-    proc.seekInput((new Date().getTime() - start) / 1000);
+    proc.seekInput((new Date().getTime() - start) / 1000 + 1.0);
   }
-
-  proc.pipe(res, { end: true });
+  res.body = proc.pipe();
 }).listen(3456);

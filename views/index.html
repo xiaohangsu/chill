@@ -11,15 +11,18 @@
     <link rel="stylesheet" href="<%=staticPath%>/main.min.css">
 </head>
 <body>
-    <video src="movie.mp4" id="v" autoplay controls>
-        
-    </video>
-    <button id='play'>Play</button>
-    <button id='pause'>Pause</button>
+<!--     <router-link to='/room'></router-link>
+    <div class="btn-group" id='index-button-group'>
+        <index-button-group>
+        </index-button-group>
+    </div>-->
+    <div class='.video'>
+        <video src="/movie.mp4" autoplay="true">
+        </video>
+        <input type="range" id='volume-control'>
+    </div>
+
     <script src='<%=staticPath%>/bundle.js'></script>
-    <script>
-        document.getElementById('v').currentTime = 10;
-    </script>
     <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
